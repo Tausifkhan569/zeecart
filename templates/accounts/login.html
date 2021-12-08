@@ -1,51 +1,57 @@
 {% extends 'base.html' %}
-
-
 {% block content %}
 
+<!-- ========================= SECTION CONTENT ========================= -->
 <section class="section-conten padding-y" style="min-height:84vh">
 
 <!-- ============================ COMPONENT LOGIN   ================================= -->
-
-{% if request.GET.command == 'verification' %}
-
-<div class="container mx-auto alert alert-info text-center" role="alert" style="max-width: 1024px; margin-top:100px;">
-Thank you for registering with us. We have sent you a verification email to your email address [{{ request.GET.email }}]
-<br><br>
-Already verified? <a href="{% url 'login' %}">Login</a>
-</div>
-
-{% else %}
-
+{% if request.GET.command == 'verification' %}  
+<!-- agar command verification rahega to mail jayega user ko  -->
 	<div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
+        Thank Your for registering with us WE have send you verification mail on your Emmail address {{request.GET.email}}
+        <br>
+        <br>
+        Already Verified.? <a href="{% url 'login' %}">Login</a>
+        <!-- if alrdy user verfied then log in -->
+        </div>
+        {% else %}
+        <div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
 
       <div class="card-body">
+        {% include "includes/alert.html" %}
       <h4 class="card-title mb-4">Sign in</h4>
-      {% include 'includes/alerts.html' %}
-      <form action="{% url 'login' %}" method="POST">
-        {% csrf_token %}
+      <form method="POST" action="{% url 'login' %}">
+        <!-- method post bcz data will post on db to check the validation -->
+          {% csrf_token %}
+          <!-- csrf token for security purpose whenever we use post method we user csrf_token -->
           <div class="form-group">
-			 <input type="email" class="form-control" placeholder="Email Address" name="email">
+			 <input type="email" name="email" class="form-control" placeholder="Email Address" >
           </div> <!-- form-group// -->
           <div class="form-group">
-			<input type="password" class="form-control" placeholder="Password" name="password">
+			<input type="password" name="password" class="form-control" placeholder="Password" >
           </div> <!-- form-group// -->
-
+          
           <div class="form-group">
-          	<a href="{% url 'forgotPassword' %}" class="float-right">Forgot password?</a>
-
+          	<a href="{% url 'forgotPassword'%}" class="float-right">Forgot password?</a> 
+            <!-- to navigate the forgot password page -->
+           
           </div> <!-- form-group form-check .// -->
           <div class="form-group">
               <button type="submit" class="btn btn-primary btn-block"> Login  </button>
-          </div> <!-- form-group// -->
+          </div> <!-- form-group// -->    
       </form>
       </div> <!-- card-body.// -->
     </div> <!-- card .// -->
-
+    {% endif %}
      <p class="text-center mt-4">Don't have account? <a href="{% url 'register' %}">Sign up</a></p>
+     <!-- when user clicked on dont have accont it will redirect to register page -->
      <br><br>
 <!-- ============================ COMPONENT LOGIN  END.// ================================= -->
-{% endif %}
+
 
 </section>
+<!-- ========================= SECTION CONTENT END// ======================
+
+
+
 {% endblock %}
